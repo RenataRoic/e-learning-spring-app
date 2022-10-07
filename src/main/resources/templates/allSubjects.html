@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>All subjects</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container">
+	
+		<div>
+		<div style="font-size:x-large; margin-top:25px" align="center">All subjects</div>
+		<table id="subjectList" style="width: 250px; padding:20px">
+			
+				<tr data-th-each="subject : ${subjectList}">
+				
+				<td><div class="unutra" th:if="${subject != null}" style="margin-bottom:20px">
+					<a th:href="@{/allSubjects/{id}(id=${subject.id})}">
+					<div class="lists">
+								
+					Subject: <span style="margin-left:40px;" th:text="${subject.name}"></span><br>
+									
+					Classroom: <span style="margin-left:15px;" th:text="${subject.classroom}"></span><br>
+					
+					Professor: <span style="margin-left:22px;" th:if="${subject.user==null}">No professor assigned</span>
+							   <span style="margin-left:22px;" th:if="${subject.user}" th:text="${subject.user.name} + ' ' + ${subject.user.surname}"></span><br>
+					</div></a>
+					</div>
+				</td>
+				</tr>
+				<tr>
+					<div th:if="${#lists.isEmpty(subjectList)}" style="padding:100px; text-align:center; font-size:large">
+					There are currently no subjects.<br><br><br>
+					
+					<div class="link-back">
+					<a style="text-decoration: none; color:black;" href="/">Go back</a></div><br><br>
+					
+					<div class="link" th:if="${#authorization.expression('hasAuthority(''admin'')')}">
+					<a style="text-decoration: none; color:black;" href="/addSubject">Add a subject</a></div>
+				</div>
+			
+		</table>
+		
+		<div class="pagination" th:unless="${#lists.isEmpty(subjectList)}">
+        <div>
+            <a class="p" th:if="${currentPage > 1}" th:href="@{'/allSubjects/page/' + 1}">First</a>
+            <span class="p" th:unless="${currentPage > 1}">First</span>
+        </div>
+        <div>
+            <a class="p" th:if="${currentPage > 1}" th:href="@{'/allSubjects/page/' + ${currentPage - 1}}">Previous</a>
+            <span class="p" th:unless="${currentPage > 1}">Previous</span>
+        </div>
+        <div>
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                <a class="p" th:if="${i != currentPage}" th:href="@{'/allSubjects/page/' + ${i}}">[[${i}]]</a>
+                <span class="p" th:unless="${i != currentPage}">[[${i}]]</span>
+            </span>
+        </div>
+        <div>
+            <a class="p" th:if="${currentPage < totalPages}" th:href="@{'/allSubjects/page/' + ${currentPage + 1}}">Next</a>
+            <span class="p" th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+        <div >
+            <a class="p" th:if="${currentPage < totalPages}" th:href="@{'/allSubjects/page/' + ${totalPages}}">Last</a>
+            <span class="p" th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+		
+		</div>
+		<br><br>
+	</div>
+
+</body>
+</html>

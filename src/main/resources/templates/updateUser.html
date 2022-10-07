@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<title>Update user</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container" align="center" th:if="${#authorization.expression('hasAuthority(''admin'')')}">
+			
+		<div class="login">	
+		<a style="font-size:x-large">Update user</a><br><br>
+		<form method="post" th:action="@{/updateUser/{id}(id=${user.id})}" th:object="${user}">
+		
+			<table style="padding:5px">
+		
+			<tr>
+			<td><label class="form-label">Name:</label></td>
+			<td><input type="text" class="form-control" name="name" th:value="${user.name}" required="required"></td>
+			</tr>
+			
+			<tr>
+			<td><label class="form-label">Surname:</label></td>
+			<td><input type="text" class="form-control" name="surname" th:value="${user.surname}" required="required"></td>
+			</tr>
+			
+			<tr>
+			<td><label class="form-label">OIB:</label></td>
+			<td><input type="text" class="form-control" name="oib" th:value="${user.oib}" required="required">
+			<span th:if="${error?.get('oibExists')}">OIB already in use</span>
+			<span th:if="${error?.get('invalidOib')}">Invalid OIB</span></td>
+			</tr>
+
+			<tr>
+			<td><label class="form-label">E-mail:</label></td>
+			<td><input type="email" class="form-control" field="*{email}" name="email" th:value="${user.email}" required="required">
+			<span th:if="${error?.get('emailExists')}">E-mail already in use</span></td>
+				<!-- <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div> -->
+			</tr>
+
+			<tr>
+			<td></td>
+			<td><button type="submit" class="link-small" style="float:right">Update</button></td>
+			</tr>
+			
+			</table>
+			
+		</form>
+		</div>
+	</div>
+</body>
+</html>

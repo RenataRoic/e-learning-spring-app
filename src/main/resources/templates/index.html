@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+	
+	<div class="container">
+
+	<div th:if="${#authorization.expression('hasAuthority(''admin'')')}" style="overflow:hidden">
+	
+		<p style="text-align:center; font-size:large">Admin page</p><br><br><br>
+		
+		<div class="left">
+		<a style="text-decoration: none; color:black;" href="/addProfessor">
+		<div class="link">Add a professor</div></a><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/addStudent">
+		<div class="link">Add a student</div></a><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/addSubject">
+		<div class="link">Add a subject</div></a><br><br>
+		</div>
+		
+		<div class="right">
+		<a style="text-decoration: none; color:black;" href="/allProfessors/page/1">
+		<div class="link">Professors</div></a><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/allStudents/page/1">
+		<div class="link">Students</div></a><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/allSubjects/page/1">
+		<div class="link">Subjects</div></a><br><br>
+		</div>
+	
+	</div>
+
+
+	<div th:if="${#authorization.expression('hasAuthority(''professor'')')}">
+	
+		<p style="text-align:center; font-size: x-large">Professor page</p><br><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/allProfessors/page/1">
+		<div class="link">Professors</div></a><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/allStudents/page/1">
+		<div class="link">Students</div></a><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/allSubjects/page/1">
+		<div class="link">Subjects</div></a><br><br>
+	
+	</div>
+	
+	
+	<div th:if="${#authorization.expression('hasAuthority(''student'')')}">
+	
+		<p style="text-align:center; font-size: x-large">Student page</p><br><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/allProfessors/page/1">
+		<div class="link">Professors</div></a><br><br>
+		
+		<a style="text-decoration: none; color:black;" href="/allSubjects/page/1">
+		<div class="link">Subjects</div></a><br><br>
+	
+	</div>
+	
+	</div>
+</body>
+</html>

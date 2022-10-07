@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<title>Add a subject</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container" align="center" th:if="${#authorization.expression('hasAuthority(''admin'')')}">
+			
+		<div class="login">
+		<a style="font-size: x-large;">Add a subject</a>
+		<form method="post" action="/addSubject" modelAttribute="subjectFormData">
+		
+			<table style="padding:5px">
+		
+			<tr>
+			<td><label class="form-label">Name:</label></td>
+			<td><input type="text" class="form-control" name="name" required="required"></td>
+			</tr>
+			
+			<tr>
+			<td><label class="form-label">Classroom:</label></td>
+			<td><input type="text" class="form-control" name="classroom" required="required"></td>
+			</tr>
+			
+			<tr>
+			<td><label class="form-label">Subject holder:</label></td>
+			<td><select required="required" name="user">
+				<option selected="selected" disabled="disabled">Choose a subject holder</option>
+            	<option data-th-each="user : ${professorList}" th:value="${user.id}" th:text="${user.name} + ' ' + ${user.surname}" th:name="user"></option>
+         		</select>
+           </td>
+           </tr>
+           			
+			<tr>
+			<td><label class="form-label">Description</label></td>
+			<td><textarea class="form-control" name="description" rows="5" ></textarea></td>
+			</tr>
+
+			<tr>
+			<td></td>
+			<td><button type="submit" class="link-small" style="float:right;">Add</button></td>
+			</tr>
+			
+			</table>
+			
+		</form>
+		</div>
+	</div>
+</body>
+</html>

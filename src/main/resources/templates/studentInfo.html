@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Info</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container" align="center">
+	
+				<div class="link-back" style="float:left; margin-top:15px; margin-left:10px">
+				<a style="text-decoration: none; color:black;" href="/allStudents/page/1">Go back</a></div><br><br>
+			
+				<div style="font-size:x-large; margin-top:30px; margin-bottom:30px" align="center">Student</div>
+				<div class="info" style="margin-left:50px">
+				<table style="margin-left:auto; margin-right:auto;">
+			
+					<tr>
+					<td>Name:</td>   
+					<td><span style="margin-left:20px" th:text="${user.name}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>Surname:</td> 
+					<td><span style="margin-left:20px" th:text="${user.surname}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>OIB:</td> 
+					<td><span style="margin-left:20px" th:text="${user.oib}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>Email:</td> 
+					<td><span style="margin-left:20px" th:text="${user.email}"></span></td>
+					</tr>
+				</table>
+				</div>
+				
+				<br><br>
+				
+				<div class="buttons">
+				
+				<a style="text-decoration:none; color:black" 
+				th:unless="${#authorization.expression('hasAuthority(''student'')')}" 
+				th:href="@{/allStudents/{id}/studentsSubjects/page/1(id=${user.id})}">
+				<div class="link">Enrolled subjects</div></a><br><br>
+				
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''admin'')')}" 
+				th:href="@{/updateUser/{id}(id=${user.id})}">
+				<div class="link">Update</div></a><br><br>
+	
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''admin'')')}" 
+				th:href="@{/deleteUser(id=${user.id})}">
+				<div class="link">Delete</div></a>
+				
+				</div>
+				
+	</div>
+
+</body>
+</html>

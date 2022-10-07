@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>My profile</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container" align="center">
+		<div style="font-size:x-large; margin-top:30px; margin-bottom:30px" align="center">My profile</div>
+		<div class="info" style="margin-left:50px">
+				<table style="margin-left:auto; margin-right:auto;">
+			
+					<tr>
+					<td>Name:</td>   
+					<td><span style="margin-left:20px" th:text="${user.name}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>Surname:</td> 
+					<td><span style="margin-left:20px" th:text="${user.surname}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>OIB:</td> 
+					<td><span style="margin-left:20px" th:text="${user.oib}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>Email:</td> 
+					<td><span style="margin-left:20px; margin-bottom:20px" th:text="${user.email}"></span></td>
+					</tr>
+					
+				</table>
+		</div>
+				<br><br>
+				
+				<div class="buttons">
+				
+				<a style="text-decoration:none; color:black" th:href="@{/changePassword}">
+				<div class="link" >Change password</div></a><br>
+				
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''student'')')}" 
+				th:href="@{/myProfile/{id}/myEnrolledSubjects/page/1(id=${#authentication.getPrincipal().getId()})}">
+				<div class="link">My enrolled subjects</div></a>
+	
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''professor'')')}" 
+				th:href="@{/myProfile/{id}/mySubjects/page/1(id=${#authentication.getPrincipal().getId()})}">
+				<div class="link">My subjects</div></a>
+				
+				</div>
+	</div>
+
+</body>
+</html>

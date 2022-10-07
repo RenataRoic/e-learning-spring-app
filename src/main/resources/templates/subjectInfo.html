@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Info</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container" align="center">
+	
+			<div class="link-back" style="float:left; margin-top:15px; margin-left:10px">
+			<a style="text-decoration: none; color:black;" href="/allSubjects/page/1">Go back</a></div><br><br>
+		
+			<div style="font-size:x-large; margin-top:30px; margin-bottom:30px" align="center">Subject</div>
+			<div class="info" style="margin-left:50px">
+			<table style="margin-left:auto; margin-right:auto;">
+			
+					<tr>
+					<td>Subject:</td>   
+					<td><span style="margin-left:20px" th:text="${subject.name}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>Classroom:</td> 
+					<td><span style="margin-left:20px" th:text="${subject.classroom}"></span></td>
+					</tr>
+					
+					<tr>
+					<td>Professor:</td> 
+					<td><p style="margin-left:20px" th:if="${subject.user==null}">No professor assigned</p>
+						<p style="margin-left:20px" th:if="${subject.user}" th:text="${subject.user.name} + ' ' + ${subject.user.surname}"></p></td>
+					</tr>
+					
+					<tr>
+					<td>Description:</td> 
+					<td><span style="margin-left:20px" th:text="${subject.description}"></span></td>
+					</tr>
+					
+			</table>
+			</div>
+			
+			<br><br>
+			
+			
+			<div class="buttons">
+			
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''admin'')')}" 
+				th:href="@{/manageEnrollment/page/1(id=${subject.id})}">
+				<div class="link">Manage enrollment</div></a><br><br>
+				
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''admin'')')}" 
+				th:href="@{/updateSubject/{id}(id=${subject.id})}">
+				<div class="link">Update</div></a><br><br>
+	
+	
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''admin'')')}" 
+				th:href="@{/deleteSubject(id=${subject.id})}">
+				<div class="link">Delete</div></a><br><br>
+				
+				
+				<a style="text-decoration:none; color:black" 
+				th:if="${#authorization.expression('hasAuthority(''student'')')}" 
+				th:href="@{/enroll(id=${subject.id})}">
+				<div class="link" >
+				
+				<p th:if="${enroll==false}">Enroll</p>
+				<p th:if="${enroll==true}">Unenroll</p>
+				</div></a><br><br> 
+				
+				
+				<a style="text-decoration:none; color:black" 
+				th:href="@{/allSubjects/{id}/enrolledStudents/page/1(id=${subject.id})}">
+				<div class="link">Enrolled students</div></a><br><br>
+				
+				</div>	
+			
+	</div>
+
+</body>
+</html>

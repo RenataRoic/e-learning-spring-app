@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>My subjects</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<div th:replace="common/navbar :: navbar"></div>
+
+	<div class="container">
+	
+		<div>
+		<div style="font-size:large; margin-top:25px; margin-left:62px">My subjects</div>
+		<table id="mySubjectsList" style="width: 250px; padding:20px">
+			
+				<tr data-th-each="subject : ${mySubjectsList}">
+				
+				<td><div class="unutra">
+					<a style="text-decoration:none; color:black" th:href="@{/allSubjects/{id}(id=${subject.id})}">
+					<div class="lists">
+								
+					Subject: <span style="margin-left:40px; margin-bottom:20px" th:text="${subject.name}"></span><br>
+									
+					Classroom: <span style="margin-left:15px; margin-bottom:20px" th:text="${subject.classroom}"></span><br>
+					
+					Professor: <span style="margin-left:22px" th:if="${subject.user==null}">No professor assigned</span>
+							   <span style="margin-left:22px" th:if="${subject.user}" th:text="${subject.user.name} + ' ' + ${subject.user.surname}"></span><br>
+							   
+					<a style="text-decoration:none; color:black"  
+					th:href="@{/manageEnrollment/page/1(id=${subject.id})}">
+					<div class="link-mid">Manage enrollment</div></a><br><br>
+					
+					</div></a>
+					</div>
+				</td>
+				</tr>
+				<tr>
+					<div th:if="${#lists.isEmpty(mySubjectsList)}" style="padding:100px; text-align:center; font-size:large">
+					You currently have no assigned subjects. <br><a href="/">Go back</a>
+					</div>
+			
+		</table>
+		 <div class="pagination" th:unless="${#lists.isEmpty(mySubjectsList)}">
+        <div>
+            <a class="p" th:if="${currentPage > 1}" 
+            th:href="@{'/myProfile/{id}/mySubjects/page/' + 1 (id=${#authentication.getPrincipal().getId()})}">First</a>
+            <span class="p" th:unless="${currentPage > 1}">First</span>
+        </div>
+        <div>
+            <a class="p" th:if="${currentPage > 1}" 
+            th:href="@{'/myProfile/{id}/mySubjects/page/' + ${currentPage - 1} (id=${#authentication.getPrincipal().getId()})}">Previous</a>
+            <span class="p" th:unless="${currentPage > 1}">Previous</span>
+        </div>
+        <div>
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                <a class="p" th:if="${i != currentPage}" 
+                th:href="@{'/myProfile/{id}/mySubjects/page/' + ${i} (id=${#authentication.getPrincipal().getId()})}">[[${i}]]</a>
+                <span class="p" th:unless="${i != currentPage}">[[${i}]]</span>
+            </span>
+        </div>
+        <div>
+            <a class="p" th:if="${currentPage < totalPages}" 
+            th:href="@{'/myProfile/{id}/mySubjects/page/' + ${currentPage + 1} (id=${#authentication.getPrincipal().getId()})}">Next</a>
+            <span class="p" th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+        <div >
+            <a class="p" th:if="${currentPage < totalPages}" 
+            th:href="@{'/myProfile/{id}/mySubjects/page/' + ${totalPages} (id=${#authentication.getPrincipal().getId()})}">Last</a>
+            <span class="p" th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+		
+		</div>
+		<br><br>
+	</div>
+
+</body>
+</html>

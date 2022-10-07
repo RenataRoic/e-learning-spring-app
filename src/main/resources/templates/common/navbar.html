@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+</head>
+<body>
+
+<div th:fragment="navbar" class="navbar">
+	<div>
+		<span class="nameNav" th:if="${#authorization.expression('hasAuthority(''professor'')')}">
+		   <a class="nav" th:text="${#authentication.getPrincipal().getName()}"></a>
+		   <a class="nav" th:text="${#authentication.getPrincipal().getSurname()}"></a>&nbsp;</span>
+		   
+		<span class="nameNav" th:if="${#authorization.expression('hasAuthority(''student'')')}">
+		   <a class="nav" th:text="${#authentication.getPrincipal().getName()}"></a>
+		   <a class="nav" th:text="${#authentication.getPrincipal().getSurname()}"></a>&nbsp;</span>
+		
+  		<a class="nav" href="/"><span class="homeNav">Home</span></a>&nbsp;
+  		
+  		<a class ="nav" th:if="${#authorization.expression('hasAuthority(''professor'')')}" 
+  		th:href="@{/myProfile/{id}(id=${#authentication.getPrincipal().getId()})}">
+  		<span class="myprofileNav">My profile</span></a>
+  		
+  		<a class ="nav" th:if="${#authorization.expression('hasAuthority(''student'')')}"
+  		th:href="@{/myProfile/{id}(id=${#authentication.getPrincipal().getId()})}">
+  		<span class="myprofileNav" >My profile</span></a>
+
+	</div>
+	          
+  		<a class="nav" href="/logout"><span class="logoutNav">Log out</span></a>
+	</div>
+	
+</body>
+</html>
